@@ -1,6 +1,6 @@
 const USER_PER_PAGE = 20;
 
-export class Search{
+class Search{
     setCurrentPage(pageNumber){
       this.currentPage = pageNumber;
     }
@@ -12,7 +12,10 @@ export class Search{
       }
   
       async loadUsers(){
-        return await fetch(`https://api.github.com/search/repositories?q=${this.view.searchInput.value}&per_page=${USER_PER_PAGE}&page=${this.currentPage}`)
+        const searcValue = this.view.searchInput.value;
+        if(searcValue)
+        {
+        return await fetch(`https://api.github.com/search/repositories?q=${searcValue}&per_page=${USER_PER_PAGE}&page=${this.currentPage}`)
         .then((res) => {
             if(res.ok){
               this.setCurrentPage(this.currentPage +1);
@@ -24,5 +27,13 @@ export class Search{
   
             }
         })
+      }
+      else{
+      this.clearUsers();
+      }
+    }
+
+      clearUsers(){
+        this.view.userList.innerHTML = '';
       }
   }

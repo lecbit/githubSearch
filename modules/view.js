@@ -1,4 +1,4 @@
-export class View {
+class View {
     constructor(){
       this.app = document.getElementById('app');
       
