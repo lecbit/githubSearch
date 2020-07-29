@@ -29,16 +29,31 @@ class View {
     }
     return element;
   }
+  createUser(userData){
+      const userElement = this.createElement('li','user-prev');
+      userElement.innerHtml = `<img class="user-prev-photo" src="${userData.avatar_url}" alt="${userData.login}">
+                               <span class="user-prev-name">${userData.login}</span>`;
+    this.userList.append(userElement);
+  }
 }
 class Search{
     constructor(view){
         this.view = view;
-        this.view.searchInput.addEventListener('keyup',this.searchUsers());
+        this.view.searchInput.addEventListener('keyup',this.searchUsers.bind(this));
     }
 
     async searchUsers(){
-      return await fetch(``)
+      return await fetch(`https://api.github.com/search/repositories?q=${this.view.searchInput.value}`).then((res) => {
+          if(res.ok){
+              res.json().then(res => {
+                  res.items.forEach(user => this.view.createUser(user))
+              })
+          }
+          else{
+
+          }
+      })
     }
-}
+} 
 
 const search = new Search(new View());
