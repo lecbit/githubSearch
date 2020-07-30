@@ -36,8 +36,8 @@ class View {
     }
     createUser(userData){
         const userElement = this.createElement('li','user-prev');
-        userElement.innerHTML = `<img class="user-prev-photo" src="${userData.owner.avatar_url}" alt="${userData.owner.login}">
-                                 <span class="user-prev-name">${userData.owner.login}</span>`;
+        userElement.innerHTML = `<img class="user-prev-photo" src="${userData.avatar_url}" alt="${userData.login}">
+                                 <span class="user-prev-name">${userData.login}</span>`;
       this.userList.append(userElement);
     }
 
