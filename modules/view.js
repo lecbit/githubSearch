@@ -42,6 +42,10 @@ class View {
     }
 
     toggleLoadMoreBtn(show){
-      this.loadMoreBtn.style.display = show ? 'block' : none;
+      this.loadMoreBtn.style.display = show ? 'block' : 'none';
+    }
+
+    setCounterMessage(message){
+      this.searchCounter.textContent = message;
     }
   }

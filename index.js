@@ -1,1 +1,1 @@
-const search = new Search(new View(), new Api());
+const search = new Search(new View(), new Api(), new Log());
