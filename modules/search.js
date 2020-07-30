@@ -1,5 +1,3 @@
-
-
 class Search{
     setCurrentPage(pageNumber){
       this.currentPage = pageNumber;
