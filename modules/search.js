@@ -1,4 +1,4 @@
-const USER_PER_PAGE = 20;
+
 
 class Search{
     setCurrentPage(pageNumber){
@@ -7,39 +7,25 @@ class Search{
     setUsersCount(count) {
       this.usersCount = count;
     }
-      constructor(view){
+      constructor(view, api){
           this.view = view;
+          this.api = api;
           this.view.searchInput.addEventListener('keyup',this.debounce(this.loadUsers.bind(this), 500));
-          this.view.loadMoreBtn.addEventListener('click',this.loadUsers.bind(this));
+          this.view.loadMoreBtn.addEventListener('click',this.loadMoreUsers.bind(this));
           this.currentPage = 1;
           this.usersCount = 0;
       }
   
-      async loadUsers(){
-        const searcValue = this.view.searchInput.value;
-        let totalCount;
-        let users;
-        if(searcValue)
-        {
-        return await fetch(`https://api.github.com/search/repositories?q=${searcValue}&per_page=${USER_PER_PAGE}&page=${this.currentPage}`)
-        .then((res) => {
-            if(res.ok){
-              this.setCurrentPage(this.currentPage +1);
-                res.json().then(res => {
-                  users = res.items;
-                  totalCount = res.total_count;
-                  this.setUsersCount(this.usersCount + res.items.length);
-                  this.view.toggleLoadMoreBtn(totalCount > USER_PER_PAGE && this.usersCount !== totalCount);
-                  users.forEach(user => this.view.createUser(user))
-                })
-            }
-            else{
-  
-            }
-        })
-      }
+      loadUsers(){        
+        this.setCurrentPage(1);
+        if(this.view.searchInput.value)
+        {        
+          this.clearUsers();
+          this.userRequest(this.view.searchInput.value);
+        }
       else{
       this.clearUsers();
+      this.view.toggleLoadMoreBtn(false);
       }
     }
 
@@ -47,6 +33,34 @@ class Search{
         this.view.userList.innerHTML = '';
       }
       
+      
+
+      loadMoreUsers(){
+        this.setCurrentPage(this.currentPage +1);
+        this.userRequest(this.view.searchInput.value);
+      }
+
+      async userRequest(searchValue)
+      {
+        let totalCount;
+        let users;
+        try{
+          await this.api.loadUsers(searchValue, this.currentPage).then((res) => {
+              this.setCurrentPage(this.currentPage +1);
+                res.json().then(res => {
+                  users = res.items;
+                  totalCount = res.total_count;
+                  this.setUsersCount(this.usersCount + res.items.length);
+                  this.view.toggleLoadMoreBtn(totalCount > 20 && this.usersCount !== totalCount);
+                  users.forEach(user => this.view.createUser(user))
+                })
+        })
+        }
+        catch(e){
+          console.log('Error: '+e);
+        }
+        
+      }
       debounce(func, wait, immediate) {
         let timeout;
         return function() {
