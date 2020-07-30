@@ -1,6 +1,1 @@
-
-
-
- 
-
-const search = new Search(new View());
+const search = new Search(new View(), new Api());
