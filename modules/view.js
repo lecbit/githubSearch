@@ -18,8 +18,8 @@ class View {
       this.usersWrapper.append(this.userList);
       
       this.main = this.createElement('div', 'main');
-      this.main.append(this.userWrapper);
       this.main.append(this.usersWrapper);
+      this.main.append(this.userWrapper);
   
       this.loadMoreBtn = this.createElement('button', 'btn');
       this.loadMoreBtn.textContent = "Загрузить ещё";
