@@ -24,7 +24,7 @@ class View {
       this.loadMoreBtn = this.createElement('button', 'btn');
       this.loadMoreBtn.textContent = "Загрузить ещё";
       this.loadMoreBtn.style.display = 'none';
-      this.userWrapper.append(this.loadMoreBtn);
+      this.usersWrapper.append(this.loadMoreBtn);
       
       this.app.append(this.title);
       this.app.append(this.searchLine);
