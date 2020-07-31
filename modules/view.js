@@ -1,6 +1,7 @@
 class View {
-    constructor(){
+    constructor(api){
       this.app = document.getElementById('app');
+      this.api = api;
       
       this.title = this.createElement('h1', 'title');
       this.title.textContent = 'Github Search Users';
@@ -36,9 +37,17 @@ class View {
     }
     createUser(userData){
         const userElement = this.createElement('li','user-prev');
+        userElement.addEventListener('click', () => this.showUserData(userData.login));
         userElement.innerHTML = `<img class="user-prev-photo" src="${userData.avatar_url}" alt="${userData.login}">
                                  <span class="user-prev-name">${userData.login}</span>`;
       this.userList.append(userElement);
+    }
+
+    showUserData(login){
+      const userEL = this.createElement('div', 'user');
+      const data = this.api.loadUserData(login).then(res => {
+        console.log(res);
+      })
     }
 
     toggleLoadMoreBtn(show){
