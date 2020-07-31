@@ -6,9 +6,9 @@ class Api{
         return await fetch(`${URL}search/users?q=${value}&per_page=${USER_PER_PAGE}&page=${page}`).then(res =>res)
     }
 
-    loadUsers(login){
+    loadUserData(login){
         const urls = [
-            `${URL}users/${login}/followwing`,
+            `${URL}users/${login}/following`,
             `${URL}users/${login}/followers`,
             `${URL}users/${login}/repos`,
         ];
