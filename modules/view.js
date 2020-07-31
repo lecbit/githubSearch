@@ -39,15 +39,29 @@ class View {
         const userElement = this.createElement('li','user-prev');
         userElement.addEventListener('click', () => this.showUserData(userData.login));
         userElement.innerHTML = `<img class="user-prev-photo" src="${userData.avatar_url}" alt="${userData.login}">
-                                 <span class="user-prev-name">${userData.login}</span>`;
+                                 <span class="user-prev-name">${userData}</span>`;
       this.userList.append(userElement);
     }
 
-    showUserData(login){
+    showUserData(userData){
       const userEL = this.createElement('div', 'user');
-      const data = this.api.loadUserData(login).then(res => {
-        console.log(res);
+      const data = this.api.loadUserData(userData.login)
+      .then(res => {
+        const [following, followers, repos] = res;
+        const followingList = this.createDatList(following, 'Following');
+
+        userEL.innerHTML = `<img src="${userData.avatar_url}" alt="${userData.login}">`;
       })
+    }
+
+    createDatList(list, title){
+      const block = this.createElement('div', 'user-block');
+      const titleTag = this.createElement('h3', 'user-block-title');
+      const listTage = this.createElement('li', 'user-list');
+      titleTag.text = title;
+
+      block.append(titleTag);
+      return block.innerHTML;
     }
 
     toggleLoadMoreBtn(show){
